@@ -9,7 +9,6 @@ from database.connection import get_db_connection
 
 SOURCE_NAME = "jobstreet_kaggle"
 
-
 def load_raw_jobs(df: pd.DataFrame):
 
     conn = get_db_connection()
