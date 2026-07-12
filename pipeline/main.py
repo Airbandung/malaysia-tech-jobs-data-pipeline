@@ -1,22 +1,27 @@
 from ingestion.sources.kaggle_source import extract_jobstreet_jobs
 from ingestion.load_raw_jobs import load_raw_jobs
+from pipeline.utils.logger import get_logger
 from transformation.transform_jobs import transform_jobs
 
+logger = get_logger(__name__)
+
 def main():
+    logger.info("Starting ETL...")
 
-    print("Starting ETL...")
+    try:
+        
+        df = extract_jobstreet_jobs()    
+        logger.info(f"Extracted {len(df)} job records")
+        
+        load_raw_jobs(df)
+        logger.info("Raw loading complete")
 
-    df = extract_jobstreet_jobs()
-
-    print(f"Extracted {len(df)} job records")
-
-    load_raw_jobs(df)
-
-    print("Raw loading complete")
-
-    transform_jobs()
-
-    print("ETL Finished")
+        transform_jobs()
+        logger.info("ETL Finished")
+    
+    except Exception as e:
+        logger.error(f"Error occurred while extracting jobs: {e}")
+        raise
 
 if __name__ == "__main__":
     main()
