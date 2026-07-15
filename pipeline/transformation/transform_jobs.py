@@ -1,6 +1,8 @@
 import json
 
 from database.connection import get_db_connection
+from transformation.location_resolver import resolve_location
+
 
 
 def get_pending_jobs():
@@ -54,17 +56,28 @@ def get_or_create_company(cursor, company_name):
 
     return company_id
 
-def get_or_create_location(cursor, location_name):
+def get_or_create_location(cursor, location):
 
     cursor.execute(
         """
         SELECT location_id
         FROM locations
-        WHERE state = %s
+        WHERE
+            city IS NOT DISTINCT FROM %s
+        AND district IS NOT DISTINCT FROM %s
+        AND locality IS NOT DISTINCT FROM %s
+        AND state IS NOT DISTINCT FROM %s
         AND country = %s
         """,
-        (location_name, "Malaysia")
+        (
+            location["city"],
+            location["district"],
+            location["locality"],
+            location["state"],
+            location["country"]
+        )
     )
+
 
     result = cursor.fetchone()
 
@@ -75,22 +88,27 @@ def get_or_create_location(cursor, location_name):
     cursor.execute(
         """
         INSERT INTO locations(
+            city,
+            district,
+            locality,
             state,
             country
         )
-        VALUES(%s, %s)
+        VALUES(%s,%s,%s,%s,%s)
         RETURNING location_id
         """,
         (
-            location_name,
-            "Malaysia"
+            location["city"],
+            location["district"],
+            location["locality"],
+            location["state"],
+            location["country"]
         )
     )
 
-    location_id = cursor.fetchone()[0]
 
-    return location_id
-
+    return cursor.fetchone()[0]
+    
 def insert_job(cursor, raw_job_id, external_job_id, raw_data, company_id, location_id):
 
     cursor.execute(
@@ -171,9 +189,14 @@ def transform_jobs():
             raw_data["company"]
         )
 
-        location_id = get_or_create_location(
+        location = resolve_location(
             cursor,
             raw_data["location"]
+            )
+
+        location_id = get_or_create_location(
+            cursor,
+            location
         )
 
         insert_job(
@@ -196,3 +219,6 @@ def transform_jobs():
     conn.close()
 
     print("Transformation complete")
+    
+if __name__ == "__main__":
+    transform_jobs()

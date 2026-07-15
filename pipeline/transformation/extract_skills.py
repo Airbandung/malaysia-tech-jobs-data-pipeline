@@ -8,7 +8,7 @@ SKILLS = [
 "javascript",
 "typescript",
 "scala",
-"go",
+"Go",
 "rust",
 
 # Database
@@ -108,7 +108,7 @@ def insert_job_skill(cursor, job_id, skill_id):
     )
     
     
-def process_skills():
+def extract_skills():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(
