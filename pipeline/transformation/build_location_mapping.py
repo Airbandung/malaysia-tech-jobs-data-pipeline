@@ -1,5 +1,5 @@
 from database.connection import get_db_connection
-from transformation.location_normalizer import normalize_location
+from transformation.location_resolver import resolve_location
 
 
 def build_location_mapping():
@@ -14,6 +14,7 @@ def build_location_mapping():
         FROM raw_jobs
     """)
 
+
     locations = cursor.fetchall()
 
 
@@ -24,7 +25,9 @@ def build_location_mapping():
 
         raw_location = row[0]
 
-        city, state = normalize_location(
+
+        result = resolve_location(
+            cursor,
             raw_location
         )
 
@@ -35,22 +38,35 @@ def build_location_mapping():
             (
                 raw_location,
                 city,
-                state
+                district,
+                locality,
+                state,
+                country,
+                geo_id
             )
             VALUES
             (
-                %s,
-                %s,
-                %s
+                %s,%s,%s,%s,%s,%s,%s
             )
 
             ON CONFLICT(raw_location)
-            DO NOTHING
+            DO UPDATE SET
+
+                city = EXCLUDED.city,
+                district = EXCLUDED.district,
+                locality = EXCLUDED.locality,
+                state = EXCLUDED.state,
+                geo_id = EXCLUDED.geo_id
+
             """,
             (
                 raw_location,
-                city,
-                state
+                result["city"],
+                result["district"],
+                result["locality"],
+                result["state"],
+                result["country"],
+                result["geo_id"]
             )
         )
 
