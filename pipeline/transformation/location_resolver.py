@@ -42,7 +42,7 @@ def resolve_location(cursor, raw_location):
         FROM malaysia_geo_reference
         WHERE LOWER(name)=LOWER(%s)
         OR LOWER(name)=LOWER(
-            regexp_replace(%s, '\s+(District|Division)$', '', 'i')
+            regexp_replace(%s, '\\s+(District|Division)$', '', 'i')
         )
         """,
         (
