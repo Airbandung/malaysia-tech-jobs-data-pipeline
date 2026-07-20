@@ -3,7 +3,7 @@ from ingestion.load_raw_jobs import load_raw_jobs
 from pipeline.utils.logger import get_logger
 from transformation.transform_jobs import transform_jobs
 from analytics.state_summary import generate_state_summary
-from transformation.extract_skills import extract_skills
+from pipeline.enrichment.extract_skills import extract_skills
 
 logger = get_logger(__name__)
 

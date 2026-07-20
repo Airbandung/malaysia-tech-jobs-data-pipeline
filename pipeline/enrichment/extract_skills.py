@@ -1,74 +1,6 @@
-import re
 from database.connection import get_db_connection
-SKILLS = [
+from enrichment.skill_extractor import extract_skills_from_text
 
-# Programming
-"python",
-"java",
-"javascript",
-"typescript",
-"scala",
-"Go",
-"rust",
-
-# Database
-"sql",
-"mysql",
-"postgresql",
-"mongodb",
-"oracle",
-
-# Data Engineering
-"etl",
-"elt",
-"data pipeline",
-"data warehouse",
-"data lake",
-"spark",
-"hadoop",
-"kafka",
-"airflow",
-"dbt",
-
-# Cloud
-"aws",
-"azure",
-"gcp",
-"docker",
-"kubernetes",
-"terraform",
-
-# Data Analysis
-"pandas",
-"numpy",
-"excel",
-"tableau",
-"power bi",
-
-# ML
-"tensorflow",
-"pytorch",
-"scikit-learn"
-]
-
-def extract_skills_from_text(text):
-
-    if not text:
-        return []
-
-    text = text.lower()
-
-    found = []
-
-    for skill in SKILLS:
-
-        if re.search(
-           r"(?<!\w)" + re.escape(skill) + r"(?!\w) ", 
-            text
-        ):
-            found.append(skill)
-
-    return found
 
 def get_or_create_skill(cursor, skill):
 
@@ -76,8 +8,10 @@ def get_or_create_skill(cursor, skill):
         """
         INSERT INTO skills(name)
         VALUES(%s)
+
         ON CONFLICT(name)
         DO UPDATE SET name = EXCLUDED.name
+
         RETURNING skill_id
         """,
         (skill,)
@@ -106,11 +40,14 @@ def insert_job_skill(cursor, job_id, skill_id):
             "technical"
         )
     )
-    
-    
+
+
 def extract_skills():
+
     conn = get_db_connection()
     cursor = conn.cursor()
+
+
     cursor.execute(
         """
         SELECT job_id, description
@@ -121,8 +58,12 @@ def extract_skills():
 
     jobs = cursor.fetchall()
 
-    print(f"Processing skills for {len(jobs)} jobs")
+    print(
+        f"Processing {len(jobs)} jobs"
+    )
 
+
+    count = 0
 
     for job_id, description in jobs:
 
@@ -138,11 +79,19 @@ def extract_skills():
                 skill
             )
 
-
             insert_job_skill(
                 cursor,
                 job_id,
                 skill_id
+            )
+
+
+        count += 1
+
+        if count % 1000 == 0:
+            conn.commit()
+            print(
+                f"{count} jobs processed"
             )
 
 
@@ -151,9 +100,8 @@ def extract_skills():
     cursor.close()
     conn.close()
 
-
     print("Skill extraction complete")
-    
-if __name__ == "__main__":
 
-    process_skills()
+
+if __name__ == "__main__":
+    extract_skills()
