@@ -188,11 +188,16 @@ def transform_jobs():
             cursor,
             raw_data["company"]
         )
+        
+        raw_location = raw_data.get("location")
+
+        if not raw_location or not raw_location.strip():
+            continue
 
         location = resolve_location(
             cursor,
-            raw_data["location"]
-            )
+            raw_location
+        )
 
         location_id = get_or_create_location(
             cursor,

@@ -17,7 +17,7 @@ def resolve_location(cursor, raw_location):
     result = {
         "city": None,
         "district": None,
-        "locality": None,
+        "locality": raw_location,
         "state": None,
         "country": "Malaysia",
         "geo_id": None
@@ -150,8 +150,12 @@ def resolve_location(cursor, raw_location):
             geo_id,name,geo_type,state=row
 
             result["geo_id"] = geo_id
-            result["city"] = name
-            result["state"] = state
+            if geo_type == "DISTRICT":
+                result["district"] = name
+            elif geo_type == "STATE":
+                result["state"] = name
+            else:
+                result["city"] = name
 
             return result
 
