@@ -1,9 +1,6 @@
 import json
-
 from database.connection import get_db_connection
 from transformation.location_resolver import resolve_location
-
-
 
 def get_pending_jobs():
 

@@ -24,23 +24,3 @@ def extract_jobstreet_jobs():
     print(f"Extracted {len(df)} job records")
 
     return df
-
-
-
-if __name__ == "__main__":
-
-    jobs = extract_jobstreet_jobs()
-
-    print("Rows:", len(jobs))
-
-    print("\nColumns:")
-    print(jobs.columns.tolist())
-
-    print("\nFirst row:")
-    print(jobs.iloc[0].to_dict())
-
-    print("\nMissing values:")
-    print(jobs.isnull().sum())
-
-    print("\nDuplicate job IDs:")
-    print(jobs["job_id"].duplicated().sum())

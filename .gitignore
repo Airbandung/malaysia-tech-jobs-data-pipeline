@@ -7,7 +7,7 @@ docker-compose.yml
 #python related files
 venv/
 __pycache__/
+#vscode settings
 .vscode/
-
 #database_backupfiles
 malaysia_backup.sql

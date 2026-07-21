@@ -14,13 +14,16 @@ A data pipeline to ingest, transform, normalize, and analyze job listings focuse
 - [License](#license)
 
 ## Features
-✅ Ingest job listings from CSV / Kaggle sources
-✅ Load Malaysian GeoJSON administrative boundaries
-✅ Normalize free-text location strings to canonical geo records (`geo_id`)
-✅ Extract and classify skills and roles from job descriptions
-🚧 Analytics layer
-🚧 REST API
-🚧 Interactive Malaysia map
+- ✅ Ingest job listings from CSV / Kaggle sources
+- ✅ Load Malaysian GeoJSON administrative boundaries
+- ✅ Normalize location 
+- ✅ Extract and classify skills and roles from job descriptions
+- 🚧 Proper logging & storing 
+    - 🚧 store logs in database
+    - 🚧 Full implementation of logs
+- 🚧 Analytics layer
+- 🚧 REST API
+- 🚧 Interactive Malaysia map
 
 ## Architecture
 This project uses the medallion architecture as the foundation for flow of the ETL. 
@@ -121,9 +124,6 @@ pipeline/
 - The transformation code expects a `malaysia_geo_reference` table and a `location_aliases` table when using DB-backed lookups. See `database/connection.py` for connection helpers.
 - GeoJSON boundary files are included under `data/geo/mys_admin_boundaries/`.
 
-## Development notes & gotchas
-- Watch for regular expression escapes inside multi-line SQL strings (e.g. use `\\s` or raw strings to avoid Python "unsupported escape sequence" warnings).
-- `location_resolver.py` performs multiple lookup strategies (exact name, alias table, state parsing, comma-format). Unit tests exercise expected behaviors.
 
 ## Contributing
 1. Fork the repo and create a branch
