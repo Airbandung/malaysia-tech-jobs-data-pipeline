@@ -1,7 +1,6 @@
 from database.connection import get_db_connection
 from enrichment.role_classifier import ROLE_RULES
 from utils.logger import get_logger
-
 logger = get_logger(__name__)
 
 def classify_role(title, description):

@@ -18,9 +18,8 @@ A data pipeline to ingest, transform, normalize, and analyze job listings focuse
 - ✅ Load Malaysian GeoJSON administrative boundaries
 - ✅ Normalize location 
 - ✅ Extract and classify skills and roles from job descriptions
-- 🚧 Proper logging & storing 
+- ✅Proper logging & storing 
     - 🚧 store logs in database
-    - 🚧 Full implementation of logs
 - 🚧 Analytics layer
 - 🚧 REST API
 - 🚧 Interactive Malaysia map
@@ -138,4 +137,3 @@ This project was developed as a personal learning project to strengthen practica
 MIT
 
 ---
-If you'd like, I can also open or run the test suite and fix any failing tests next.
