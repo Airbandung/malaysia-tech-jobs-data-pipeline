@@ -1,6 +1,6 @@
 # Datapipeline CSJOBS Malaysia
 
-A data pipeline to ingest, transform, normalize, and analyze CSJOBS listings focused on Malaysia. The project provides tools to load raw job data, resolve and normalize locations against Malaysian administrative boundaries, extract skills and roles, and produce analytics summaries.
+A data pipeline to ingest, transform, normalize, and analyze job listings focused on computer science related field jobs in Malaysia. The project provides tools to load raw job data, resolve and normalize locations against Malaysian administrative boundaries, extract skills and roles, and produce analytics summaries.
 
 ## Table of contents
 - [Features](#features)
@@ -14,11 +14,54 @@ A data pipeline to ingest, transform, normalize, and analyze CSJOBS listings foc
 - [License](#license)
 
 ## Features
-- Ingest job listings from CSV / Kaggle sources
-- Load Malaysian GeoJSON administrative boundaries
-- Normalize free-text location strings to canonical geo records (`geo_id`)
-- Extract and classify skills and roles from job descriptions
-- Aggregate analytics by state and other geography levels
+✅ Ingest job listings from CSV / Kaggle sources
+✅ Load Malaysian GeoJSON administrative boundaries
+✅ Normalize free-text location strings to canonical geo records (`geo_id`)
+✅ Extract and classify skills and roles from job descriptions
+🚧 Analytics layer
+🚧 REST API
+🚧 Interactive Malaysia map
+
+## Architecture
+This project uses the medallion architecture as the foundation for flow of the ETL. 
+
+```Project Architecture(High Level)
+
+Kaggle Dataset
+      │
+      ▼
+Extraction
+      │
+      ▼
+raw_jobs
+      │
+      ▼
+Transformation
+      │
+      ├── companies
+      ├── locations
+      └── jobs
+             │
+             ├── skills
+             └── job roles
+                    │
+                    ▼
+                Analytics
+```
+
+## Technology Stack
+```mermaid
+| Category        | Technology                 |
+| --------------- | -------------------------- |
+| Language        | Python                     |
+| Database        | PostgreSQL                 |
+| Spatial Data    | PostGIS                    |
+| Containers      | Docker                     |
+| Version Control | Git                        |
+| Data Processing | Pandas                     |
+| Environment     | Virtual Environment (venv) |
+```
+
 
 ## Quickstart
 Prerequisites
@@ -86,6 +129,10 @@ pipeline/
 1. Fork the repo and create a branch
 2. Add tests for new behavior
 3. Open a PR with a clear description
+
+## Project Background
+This project was developed as a personal learning project to strengthen practical data engineering skills and apply concepts learned through coursework and self-study.
+
 
 ## License
 MIT
