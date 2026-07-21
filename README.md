@@ -50,7 +50,7 @@ Transformation
 ```
 
 ## Technology Stack
-```mermaid
+```
 | Category        | Technology                 |
 | --------------- | -------------------------- |
 | Language        | Python                     |
