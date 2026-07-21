@@ -11,3 +11,6 @@ __pycache__/
 .vscode/
 #database_backupfiles
 malaysia_backup.sql
+logs/
+*.log
+
