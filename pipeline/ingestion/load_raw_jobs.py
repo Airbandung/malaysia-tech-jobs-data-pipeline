@@ -3,9 +3,10 @@ import pandas as pd
 import math
 
 from psycopg2.extras import execute_values
-
 from database.connection import get_db_connection
+from utils.logger import get_logger
 
+logger = get_logger(__name__)
 
 SOURCE_NAME = "jobstreet_kaggle"
 
@@ -50,7 +51,7 @@ def load_raw_jobs(df: pd.DataFrame):
 
     conn.commit()
 
-    print(f"Loaded {len(records)} raw jobs.")
+    logger.info(f"Loaded {len(records)} raw jobs.")
 
     cursor.close()
     conn.close()

@@ -1,6 +1,8 @@
 from database.connection import get_db_connection
 from enrichment.skill_extractor import extract_skills_from_text
+from utils.logger import get_logger
 
+logger = get_logger(__name__)
 
 def get_or_create_skill(cursor, skill):
 
@@ -58,10 +60,7 @@ def extract_skills():
 
     jobs = cursor.fetchall()
 
-    print(
-        f"Processing {len(jobs)} jobs"
-    )
-
+    logger.info(f"Processing {len(jobs)} jobs")
 
     count = 0
 
@@ -90,17 +89,14 @@ def extract_skills():
 
         if count % 1000 == 0:
             conn.commit()
-            print(
-                f"{count} jobs processed"
-            )
-
-
+    
     conn.commit()
-
     cursor.close()
     conn.close()
+    
+    logger.info(f"Skill extraction complete.")
 
-    print("Skill extraction complete")
+    
 
 
 if __name__ == "__main__":

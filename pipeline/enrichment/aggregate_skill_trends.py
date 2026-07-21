@@ -1,5 +1,7 @@
 from database.connection import get_db_connection
+from utils.logger import get_logger
 
+logger = get_logger(__name__)
 
 def generate_skill_trends():
 
@@ -60,9 +62,7 @@ def generate_skill_trends():
     conn.close()
 
 
-    print(
-        "Skill trends generated"
-    )
+    logger.info("Skill trends generated")
 
 
 if __name__ == "__main__":

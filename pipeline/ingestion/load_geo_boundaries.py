@@ -1,6 +1,8 @@
 import geopandas as gpd
 from database.connection import get_db_connection
+from utils.logger import get_logger
 
+logger = get_logger(__name__)
 
 STATE_FILE = "../data/geo/mys_admin_boundaries/mys_admin1.geojson"
 DISTRICT_FILE = "../data/geo/mys_admin_boundaries/mys_admin2.geojson"
@@ -10,7 +12,7 @@ def update_states(cursor):
 
     gdf = gpd.read_file(STATE_FILE)
 
-    print(f"Loading {len(gdf)} states")
+    logger.info(f"Loading {len(gdf)} states")
 
     for _, row in gdf.iterrows():
 
@@ -38,7 +40,7 @@ def insert_districts(cursor):
 
     gdf = gpd.read_file(DISTRICT_FILE)
 
-    print(f"Loading {len(gdf)} districts")
+    logger.info(f"Loading {len(gdf)} districts")
 
     for _, row in gdf.iterrows():
 
@@ -91,7 +93,7 @@ def main():
     cursor.close()
     conn.close()
 
-    print("Geo boundaries loaded")
+    logger.info("Geo boundaries loaded")
 
 
 if __name__ == "__main__":

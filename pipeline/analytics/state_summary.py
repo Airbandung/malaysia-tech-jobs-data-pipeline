@@ -1,4 +1,7 @@
 from database.connection import get_db_connection
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 def generate_state_summary():
 
@@ -27,8 +30,8 @@ def generate_state_summary():
 
     cursor.close()
     conn.close()
-
-    print("State summary complete.")
+    
+    logger.info("State summary generated successfully.")
     
 if __name__ == "__main__":
     generate_state_summary()

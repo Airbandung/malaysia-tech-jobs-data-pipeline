@@ -1,4 +1,5 @@
 from transformation.malaysia_location import KNOWN_LOCATIONS
+
 MALAYSIA_STATES = [
     "Johor",
     "Kedah",

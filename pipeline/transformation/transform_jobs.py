@@ -1,6 +1,10 @@
 import json
 from database.connection import get_db_connection
 from transformation.location_resolver import resolve_location
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 def get_pending_jobs():
 
@@ -170,7 +174,7 @@ def transform_jobs():
 
     jobs = get_pending_jobs()
 
-    print(f"Processing {len(jobs)} jobs")
+    logger.info(f"Processing {len(jobs)} jobs")
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -220,7 +224,7 @@ def transform_jobs():
     cursor.close()
     conn.close()
 
-    print("Transformation complete")
+    logger.info("Transformation complete")
     
 if __name__ == "__main__":
     transform_jobs()

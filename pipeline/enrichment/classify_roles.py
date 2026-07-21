@@ -1,5 +1,8 @@
 from database.connection import get_db_connection
 from enrichment.role_classifier import ROLE_RULES
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 def classify_role(title, description):
 
@@ -98,9 +101,7 @@ def classify_jobs():
 
     jobs = cursor.fetchall()
 
-    print(
-        f"Processing {len(jobs)} jobs"
-    )
+    logger.info(f"Processing {len(jobs)} jobs")
 
 
     classified = 0
@@ -129,20 +130,12 @@ def classify_jobs():
                 role_id,
                 confidence
             )
-
-
             classified += 1
-
-
+    
     conn.commit()
-
     cursor.close()
     conn.close()
-
-
-    print(
-        f"Classified {classified} jobs"
-    )
+    logger.info(f"Classified {classified} jobs")
 
 
 if __name__ == "__main__":

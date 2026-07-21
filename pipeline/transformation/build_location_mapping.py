@@ -1,6 +1,8 @@
 from database.connection import get_db_connection
 from transformation.location_resolver import resolve_location
+from utils.logger import get_logger
 
+logger = get_logger(__name__)
 
 def build_location_mapping():
 
@@ -18,7 +20,7 @@ def build_location_mapping():
     locations = cursor.fetchall()
 
 
-    print(f"Found {len(locations)} locations")
+    logger.info(f"Found {len(locations)} locations")
 
 
     for row in locations:
@@ -77,7 +79,7 @@ def build_location_mapping():
     conn.close()
 
 
-    print("Location mapping generated")
+    logger.info("Location mapping generated")
 
 
 if __name__ == "__main__":
