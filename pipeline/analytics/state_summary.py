@@ -8,7 +8,7 @@ def generate_state_summary():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    print("Generating state summary...")
+    logger.info("Generating state summary...")
 
     # Remove previous summary
     cursor.execute("DELETE FROM state_job_summary")

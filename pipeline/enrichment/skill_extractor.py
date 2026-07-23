@@ -1,5 +1,5 @@
 import re
-from enrichment.skill_dictionary import SKILL_ALIASES
+from enrichment.constant import SKILL_ALIASES
 
 
 def extract_skills_from_text(text):

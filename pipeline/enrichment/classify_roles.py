@@ -1,5 +1,5 @@
 from database.connection import get_db_connection
-from enrichment.role_classifier import ROLE_RULES
+from enrichment.constant import ROLE_RULES
 from utils.logger import get_logger
 logger = get_logger(__name__)
 
